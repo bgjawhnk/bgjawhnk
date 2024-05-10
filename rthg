@@ -1,0 +1,87 @@
+	string CommandText = "DECLARE    @PageIndex INT "+
+				" DECLARE    @PageSize  INT "+
+				" DECLARE    @RecordCount INT "+
+				" DECLARE    @PageCount INT "+declare+
+				"SET @PageIndex="+_now.ToString()+" "+
+				"SET @PageSize="+_pagesize+" "+
+				"SELECT @RecordCount =COUNT("+_countf+")"+groupf+" FROM "+FromTableList+" "+WhereStatements+" "+
+				"SET @PageCount = CEILING(@RecordCount * 1.0 / @PageSize) "+
+				" select @recordcount rc,@pagecount pc"+resultf+
+				" SELECT "+DisplayFieldList+" FROM "+
+				"(SELECT "+SelectedFieldList+","+
+				"ROW_NUMBER() OVER (ORDER BY "+OrderFieldList+") AS sn  "+
+				"FROM "+FromTableList+" "+WhereStatements+") AS T "+OuterFromTableList+
+				" WHERE T.sn > (@PageIndex * @PageSize)  and T.sn <= ((@PageIndex+1) * @PageSize) "+OuterWhereStatements;
+            if (DbServerType.ToLower() == "dm8")
+            {
+                CommandText = "declare PageIndex INT; " +
+                    " PageSize  INT; " +
+                    " RecordCount INT; " +
+                    " PageCount INT; " + declare +
+                    "begin SET PageIndex=" + _now.ToString() + "; " +
+                    "SET PageSize=" + _pagesize + "; " +
+                    "SELECT COUNT(" + _countf + ") " + groupf +" into "+intolist+ " FROM " + FromTableList + " " + WhereStatements + " ;" +
+                    "SET PageCount = CEILING(RecordCount * 1.0 / PageSize) ;" +
+                    " select recordcount rc,pagecount pc" + resultf +";"+
+                    " SELECT " + DisplayFieldList + " FROM " +
+                    "(SELECT " + SelectedFieldList + "," +
+                    "ROW_NUMBER() OVER (ORDER BY " + OrderFieldList + ") AS sn  " +
+                    "FROM " + FromTableList + " " + WhereStatements + ") AS T " + OuterFromTableList +
+                    " WHERE T.sn > (PageIndex * PageSize)  and T.sn <= ((PageIndex+1) * PageSize) " + OuterWhereStatements+" ;"+
+                    " end;";
+ 
+            }
+			string _info="";
+			try
+			{
+                ArrayList _paras = new ArrayList();
+				if(paras!=null)
+				{
+					for(int i=0;i<paras.Count;i++)
+					{
+                        if (DbServerType.ToLower() == "dm8") {
+                           _paras.Add(paras[i] as DmParameter);
+                        }
+                        else
+                        {
+                            _paras.Add((SqlParameter)paras[i]);
+                        }
+					}
+				}
+                IDbCommand Cmd = GetCommand(DbServerType, CommandText, _paras, Conn);
+ 
+				Conn.Open();
+                if (DbServerType.ToLower() == "dm8")
+                {
+                    myDr = Cmd.ExecuteReader() as DmDataReader;
+                }
+                else
+                {
+                    myDr = Cmd.ExecuteReader() as SqlDataReader;
+                }
+                if (myDr.Read())
+				{   
+					int pc=int.Parse(myDr["pc"].ToString());
+					int rc=int.Parse(myDr["rc"].ToString());
+					oe.SetBaseClassText(webctls[1],pc.ToString());
+					oe.SetBaseClassText(webctls[2],rc.ToString());
+					oe.SetBaseClassText(webctls[0],(_now+1).ToString());
+					if(webctls.Length>4)
+					{
+						oe.SetBaseClassText(webctls[4],(_now+1).ToString());
+					}
+					if(GroupFuncs!=null)
+					{
+						for(int i=0;i<GroupFuncs.Count;i++)
+						{
+							string[] rv=(string[])GroupFuncs[i];
+							oe.SetBaseClassText(rv[3],myDr[rv[1]].ToString());
+						}
+					}
+				}
+
+————————————————
+
+                            版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。
+                        
+原文链接：https://blog.csdn.net/michaelline/article/details/138491801
