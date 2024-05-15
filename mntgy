@@ -1,0 +1,21 @@
+window.onload = function() {
+    		var oBtn = document.getElementById('btn');
+    		oBtn.onclick = function() {
+    			var userName = document.getElementById('userName').value;
+    			var email = document.getElementById('email').value;
+    			var passwor = document.getElementById('pwd').value;
+    			var repasswor = document.getElementById('repwd').value;
+    			if (passwor != repasswor) {
+    				alert('两次密码不一致！');
+    				return false;
+    			}
+    			var userInfo = {
+    				username:userName,
+    				passwor: passwor,
+    				email:email,
+    			};
+    			localStorage.setItem('userInfo',JSON.stringify(userInfo));
+    			alert('注册成功，跳转到登录页！');
+    			setTimeout('location.href = "login.html"', 1000);  //location定位  (注册成功后1秒跳转到登录项)
+    		};
+    	}
