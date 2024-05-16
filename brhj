@@ -1,0 +1,53 @@
+<template>
+    <div>
+        <div class="echart_size" :id="id"></div>
+    </div>
+</template>
+<script>
+import * as echarts from 'echarts'
+export default {
+    props: {
+        // 接收的参数
+        id: {
+            type: String,
+            default: ''
+        },
+        datas: {
+            type: Array,
+            default: () => []
+        }
+    },
+    data() {
+        return {
+            // 变量
+        }
+    },
+    created() {
+        this.$nextTick(() => {
+            this.barBtn()
+        })
+    },
+    methods: {
+        barBtn() {
+            // 实例化对象
+            let myCharts = echarts.init(document.getElementById(this.id))
+            // 指定配置项和数据
+            let option = {
+                // 某图表
+            }
+            // 把配置项给实例对象
+            myCharts.setOption(option)
+            // 让图表跟随屏幕自动的去适应
+            window.addEventListener('resize', function () {
+                myCharts.resize()
+            })
+        }
+    }
+}
+</script>
+<style lang="scss" scoped>
+.echart_size{
+    width: 500px;
+    height: 500px;
+}
+</style>
