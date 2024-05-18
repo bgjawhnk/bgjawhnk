@@ -1,0 +1,2 @@
+var  info = {domain: 'secure.com', path: '/userInfo',secure:true};  
+response.cookie("cookieName",data,info)  
