@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>电锯切割狂</title>
+		<meta name="viewport" content="" data-original="width = device-width, initial-scale=1, maximum-scale=1.01" />
+		<style>
+			body {
+				background-color: black;
+				background-image: url(index_gradient.png), url(index_bg.jpg);
+				background-size: 100% auto, auto 100%;
+				background-position: center bottom, left top;
+				background-repeat: repeat-y, repeat-x;
+				padding: 0px;
+				margin: 0px;
+			}
+			.page-footer {
+			  position: fixed;
+			  right: 0px;
+			  bottom: 0px;
+			  display: flex;
+			  align-items: center;
+			  padding: 5px;
+			  color: black;
+			  background: rgba(255, 255, 255, 0.65);
+			}
+			.page-left {
+			  position: fixed;
+			  left: 0px;
+			  bottom: 0px;
+			  display: flex;
+			  align-items: center;
+			  padding: 5px;
+			  color: black;
+			  background: rgba(255, 255, 255, 0.65);
+			}
+			
+			.page-footer a {
+			  display: flex;
+			  margin-left: 4px;
+			}
+			.touxiang{
+				bottom: 0px;
+				width:30px;
+				height:30px;
+			}
+		</style>
+		<script type="text/javascript" src="js/phaser.min.js"></script>
+		<script type="text/javascript" src="js/game.min.js"></script>
+
+  <script charset="UTF-8" id="LA_COLLECT" src="https://sdk.51.la/js-sdk-pro.min.js"></script>
+  <script>LA.init({id:"JxVJPIpe3UAQqoDx",ck:"JxVJPIpe3UAQqoDx"})</script>
+  <script>
+  var _hmt = _hmt || [];
+  (function() {
+    var hm = document.createElement("script");
+    hm.src = "https://hm.baidu.com/hm.js?a9430a37066911650e26adadcc42798a";
+    var s = document.getElementsByTagName("script")[0]; 
+    s.parentNode.insertBefore(hm, s);
+  })();
+  </script>
+  <!-- 谷歌广告 -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7056167681359419" crossorigin="anonymous"></script>
+	</head>
+
+	<body>
+	<div style="display:none;">
+	 <img src="big_icon.jpg" />
+	</div>
+		<script>		    
+    		game = new Phaser.Game(420, 525, Phaser.CANVAS, '',"",false);
+    		game.state.add('Boot', Boot);
+    		game.state.add('Preload', Preload);
+    		game.state.add('MainMenu', MainMenu);
+    		game.state.add('Play', Play);
+    		//game.state.add('PhotoMaker', PhotoMaker);
+    		game.state.start('Boot');
+		</script>
+		<footer class="page-footer">
+		  <span>更多游戏👉</span>
+		  <a href="https://haiyong.site/moyu" target="_blank">
+			<img class="touxiang"  src="https://haiyong.site/img/favicon.png">
+		  </a>
+		</footer>
+		<footer class="page-left">  
+		  <a href="https://code.haiyong.site/" target="_blank">
+			<img class="touxiang"  src="https://code.haiyong.site/wp-content/uploads/2022/10/logo.jpg">
+		  </a>
+		  <span>👈游戏源码</span>
+		</footer>
+	</body>
+</html>
