@@ -1,0 +1,16 @@
+public async Task<IActionResult> GetAllStaff()
+    {
+        var staffList = new List<Staff>
+        {
+            new Staff
+            {
+                id = 1,
+                name = "张三",
+                department = "研发部",
+                sex = "男",
+                CreateTime = "2024-2-4 16:45:50"
+            }
+        };
+​
+        return Ok(staffList);
+    }
