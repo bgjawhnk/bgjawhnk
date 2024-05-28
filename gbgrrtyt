@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 相对路径 -->
+    <!-- 同级目录 -->
+    <img src="小杨.jpg" width="100px" height="100px">
+    <br>
+    <img src="./小杨.jpg" width="100px" height="100px">
+    <br>
+    <!-- 下一级目录 -->
+    <img src="img/小杨.jpg" width="100px" height="100px">
+    <br>
+    <!-- 上一级目录 -->
+    <img src="../合照.jpg" width="100px" height="100px">
+    <br>
+
+    <!-- 绝对路径 -->
+    <img src="E:/IT/Web/Code/web_code/合照.jpg" width="100px" height="100px">
+    <br>
+    <img src="https://typora-ysk.oss-cn-beijing.aliyuncs.com/%E5%B0%8F%E6%9D%A8.jpg" width="100px" height="100px">
+</body>
+</html>
