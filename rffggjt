@@ -1,0 +1,140 @@
+import * as mqtt from "mqtt/dist/mqtt.min";
+import { onUnmounted, ref, reactive } from 'vue';
+import { ElNotification } from 'element-plus'
+export default function useMqtt() {
+    let client = ref({
+        connected: false
+    });
+    const notifyPromise = ref(Promise.resolve())
+    const qosList = [0, 1, 2];
+    // 订阅主题
+    const topic = ref('rscu/sensor/warning/count')
+    // 发送主题
+    const sendTopic = ref('rscu/sensor/warning')
+    const qos = ref(1)
+    // 链接地址
+    const hostUrl = ref('')
+ 
+//window.server.fileUploadUrl  这个是我在public文件下 static文件下 
+//创建的config.js 中定义的一个全局静态地址 并在 index.html中引用了他 他不会被打包 
+//你们也可以直接固定死
+    hostUrl.value = window.server.fileUploadUrl ? window.server.fileUploadUrl : ''
+    const connection = reactive({
+        // 指明协议类型
+        protocol: "ws",
+        host: hostUrl.value,
+        // ws: 8083; wss: 8084
+        port: 8083,
+        endpoint: "/mqtt",
+        // for more options, please refer to https://github.com/mqttjs/MQTT.js#mqttclientstreambuilder-options
+        clean: true,
+        connectTimeout: 30 * 1000, // ms
+        reconnectPeriod: 4000, // ms
+        clientId: "emqx_benYing_" + Math.random().toString(16).substring(2, 8),
+        // auth
+        username: "warning",
+        password: "root",
+    });
+    const messageValue = ref(false)
+    // 订阅的信息
+    const receiveNews = ref('')
+    const time = ref(null)
+    const startMqtt = (topic, callback) => {
+        try {
+            const { protocol, host, port, endpoint, ...options } = connection;
+            const connectUrl = `${protocol}://${host}:${port}${endpoint}`;
+            client.value = mqtt.connect(connectUrl, options);
+            if (client.value.on) {
+                // 连接
+                client.value.on("connect", () => {
+                    console.log("连接成功 successful");
+                    link()
+                });
+                // 重连
+                client.value.on("reconnect", handleOnReConnect);
+                client.value.on("error", (error) => {
+                    // console.log("重连失败 error:", error);
+                });
+                // 收到信息 callback返回收到的信息
+                client.value.on("message", callback);
+            }
+        } catch (error) {
+            // console.log("mqtt.connect error:", error);
+        }
+    };
+    // 订阅
+    const link = () => {
+        client.value.subscribe(
+            topic.value,
+            '1',
+            (error, granted) => {
+                if (error) {
+                    // console.log("订阅失败 error:", error);
+                    return;
+                } else {
+                    sendMessage()
+                    // console.log("订阅成功 successfully:", granted);
+                }
+            }
+        );
+    };
+    // 取消订阅
+    const UnSubscribe = () => {
+        let qosValue = qos.value
+        client.value.unsubscribe(topic.value, { qosValue }, (error) => {
+            if (error) {
+                // console.log("取消订阅失败 error:", error);
+                return;
+            }
+            console.log(`取消订阅成功 topic: ${topic}`);
+        });
+    };
+    // 取消连接
+    const destroyConnection = () => {
+        if (client.value.connected) {
+            try {
+                client.value.end(false, () => {
+                    console.log("断开连接成功 successfully");
+                });
+            } catch (error) {
+                // console.log("断开连接失败 error:", error);
+            }
+        }
+    };
+ 
+    const retryTimes = ref(0);
+    const handleOnReConnect = () => {
+        retryTimes.value += 1;
+        if (retryTimes.value > 5) {
+            try {
+                client.value.end();
+                initData();
+                // console.log("connection maxReconnectTimes limit, stop retry");
+            } catch (error) {
+                // console.log("handleOnReConnect catch error:", error);
+            }
+        }
+    };
+    const initData = () => {
+        client.value = {
+            connected: false,
+        };
+        retryTimes.value = 0;
+    };
+//发送信息
+    const sendMessage = () => {
+        client.value.publish('rscu/sensor/warning', '1', '1', (err, a) => {
+            if (!err) { } else {
+ 
+            }
+        })
+    };
+ 
+    return {
+        startMqtt,
+        link,
+        UnSubscribe,
+        destroyConnection,
+        sendMessage
+    };
+}
