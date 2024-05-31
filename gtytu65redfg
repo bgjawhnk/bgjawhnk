@@ -1,0 +1,9 @@
+import fetchData from './fetchData'
+
+test('fetchData 返回结果为 Promise: { success: true }', () => {
+  return fetchData().then((res) => {
+    expect(res.data).toEqual({
+      success: true
+    })
+  })
+})
