@@ -1,0 +1,8 @@
+<?php  
+highlight_file(__FILE__);  
+if (isset($_POST['a']) && !preg_match('/[0-9]/', $_POST['a']) && intval($_POST['a'])) {  
+    echo "操作你O.o";  
+    echo preg_replace($_GET['a'],$_GET['b'],$_GET['c']);  // 我可不会像别人一样设置10来个level  
+} else {  
+    die("有点汗流浃背");  
+}
