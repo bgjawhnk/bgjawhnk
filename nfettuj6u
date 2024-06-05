@@ -1,0 +1,34 @@
+ const loading = ref(false);
+ 
+      const columns = [
+        {
+          title: '封面',
+          dataIndex: 'cover',
+          slots: { customRender: 'cover' }
+        },
+        {
+          title: '名称',
+          dataIndex: 'name'
+        },
+        {
+          title: '分类',
+          slots: { customRender: 'category' }
+        },
+        {
+          title: '文档数',
+          dataIndex: 'docCount'
+        },
+        {
+          title: '阅读数',
+          dataIndex: 'viewCount'
+        },
+        {
+          title: '点赞数',
+          dataIndex: 'voteCount'
+        },
+        {
+          title: 'Action',
+          key: 'action',
+          slots: { customRender: 'action' }
+        }
+      ];
