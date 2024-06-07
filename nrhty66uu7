@@ -1,0 +1,24 @@
+<script type="text/javascript" src="js/pixi.min.js"></script>
+<script type="text/javascript" src="js/tinycolor.min.js"></script>
+
+<script type="text/javascript">
++!~-(function(PIXI, window, document, undefined) {
+  var waterfallCanvas = function(c, cw, ch) {
+    var _this = this;
+    this.c = c;
+    this.ctx = c.getContext('2d');
+    this.cw = cw;
+    this.ch = ch;
+    this.particles = [];
+    this.particleRate = 6;
+    this.gravity = 0.15;
+    this.init = function() {
+      this.loop();
+    };
+    this.reset = function() {
+      this.ctx.clearRect(0, 0, this.cw, this.ch);
+      this.particles = [];
+    };
+    this.rand = function(rMi, rMa) {
+      return ~~((Math.random() * (rMa - rMi + 1)) + rMi);
+    };
