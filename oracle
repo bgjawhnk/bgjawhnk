@@ -1,0 +1,31 @@
+catch (OracleException e)
+				{
+					ErrorMessage=e.Message;
+					return null;
+				}
+ 
+				finally
+				{
+					Conn.Close();
+					Conn.Dispose();
+				}
+			}//oracle
+            if (DbServerType.ToLower() == "dm8")
+            {
+ 
+                DmConnection Conn = new DmConnection(strConn);
+                DmCommand Cmd = new DmCommand();
+                Cmd.CommandType = ct;
+                Cmd.Connection = Conn;
+ 
+                DmDataReader myDr;
+                Cmd.CommandText = _sql;
+                if (paras != null)
+                {
+                    for (int i = 0; i < paras.Count; i++)
+                    {
+                        Cmd.Parameters.Add((DmParameter)paras[i]);
+                    }
+                }
+ 
+ 
