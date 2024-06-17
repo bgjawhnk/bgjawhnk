@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Test</title>
+</head>
+
+<body>
+    <h1>CORS Test</h1>
+    <button id="fetchDataButton">Fetch Data</button>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        document.getElementById('fetchDataButton').addEventListener('click', function () {
+            getCarLocation();
+        });
+
+        function getCarLocation() {
+            axios.get('http://localhost:80/Test.asmx/GetJsonData')
+                .then(function (response) {
+                    console.log('Success:', response.data);
+                })
+                .catch(function (error) {
+                    console.error('Error:', error);
+                });
+        }
+    </script>
+</body>
+
+</html>
